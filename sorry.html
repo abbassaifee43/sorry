@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorry — From My Heart</title>
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+      --bg1: #0b0b0c;
+      --bg2: #2f2f33;
+      --accent: #ff4d6d;
+      --glass: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Dancing Script",cursive;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:white;
+      display:flex;align-items:center;justify-content:center;
+      height:100vh;overflow:hidden;padding:10px;
+    }
+    .page{display:none;max-width:90%;width:600px;text-align:center;
+      background:var(--glass);padding:24px;border-radius:16px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+      animation:fadeIn 1s ease-in-out;}
+    .page.active{display:block}
+    h1,h2{color:var(--accent);margin-top:0}
+    h1{animation:heartbeat 2s infinite}
+    p,pre{white-space:pre-wrap;text-align:left;line-height:1.6}
+    .controls{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    button,a.btn{padding:10px 16px;border:none;border-radius:12px;
+      cursor:pointer;text-decoration:none;font-weight:600;color:white;
+      transition:.3s}
+    .primary{background:linear-gradient(90deg,var(--accent),#ff2d55)}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.2)}
+    button:hover,a.btn:hover{transform:translateY(-3px)}
+    @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+    @keyframes heartbeat{0%,100%{transform:scale(1)}25%,75%{transform:scale(1.1)}50%{transform:scale(1)}}
+    /* Face */
+    .face{margin:20px auto;width:200px}
+    svg{width:100%;height:auto}
+    #mouth-smile{opacity:0;transition:.5s}
+    #mouth-sad{opacity:1;transition:.5s}
+    /* Floating hearts */
+    #hearts{position:fixed;inset:0;pointer-events:none;z-index:1}
+    .heart{position:absolute;color:#ff4d6d;font-size:20px;animation:floatUp 6s linear forwards}
+    @keyframes floatUp{0%{transform:translateY(100vh) scale(.5);opacity:0}
+      50%{opacity:1}
+      100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div class="page active" id="page1">
+    <h1>I’m Sorry 💔</h1>
+    <p>Mujhe pata hai kuch misunderstandings hui thi...  
+    Aaj main sirf ek baat kehna chahta hoon → Sorry from the bottom of my heart.</p>
+
+    <div class="face">
+      <svg viewBox="0 0 220 220">
+        <circle cx="110" cy="110" r="100" fill="#ffd6d6"/>
+        <ellipse cx="72" cy="92" rx="12" ry="15" fill="#2b2b2b"/>
+        <ellipse cx="148" cy="92" rx="12" ry="15" fill="#2b2b2b"/>
+        <circle cx="66" cy="86" r="4" fill="#fff"/>
+        <circle cx="142" cy="86" r="4" fill="#fff"/>
+        <path id="mouth-sad" d="M65,150 C95,125 125,125 155,150" stroke="#6b1d2b" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path id="mouth-smile" d="M65,140 C95,175 125,175 155,140" stroke="#c9274d" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="controls">
+      <button class="primary" onclick="nextPage(2)">Open Letter ✍️</button>
+      <button class="ghost" onclick="makeSmile()">Give a Smile 😊</button>
+    </div>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page2">
+    <h2>My Letter to Munira ❤️</h2>
+    <pre id="letter"></pre>
+    <div class="controls">
+      <button class="ghost" onclick="nextPage(1)">Back ←</button>
+      <button class="primary" onclick="nextPage(3)">Next ➡️</button>
+    </div>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="page" id="page3">
+    <h2>One Last Thing 🍫</h2>
+    <p>I hope this clears everything between us ❤️  
+    Can we start talking again? 🥺</p>
+    <div class="controls">
+      <a class="btn primary" href="tel:8306165122">📞 Call Me</a>
+      <button class="ghost" onclick="nextPage(1)">Replay 🔁</button>
+    </div>
+  </div>
+
+  <div id="hearts"></div>
+
+  <script>
+    let currentPage=1;
+    function nextPage(n){
+      document.getElementById("page"+currentPage).classList.remove("active");
+      document.getElementById("page"+n).classList.add("active");
+      currentPage=n;
+      if(n===2 && typed===false){ typeWriter(); }
+    }
+
+    // Typewriter Letter
+    const letterText=`Hey Munira ❤️,
+
+Kaise ho aap?
+
+Sabse pehle, dil se ek baat kehna chahta hoon — I am really sorry.  
+Mujhe pata hai misunderstandings hui thi aur shayad maine aapko hurt kiya ho.  
+Lekin mera intention kabhi bhi aapko takleef dena nahi tha.  
+
+Main maanta hoon ki kabhi kabhi meri baatein galat samajh aayi hongi,  
+lekin mera dil hamesha aapki respect aur care karta hai.  
+
+Maine pehle bhi ek chhoti si chocolate di thi,  
+shayad wo enough na ho, lekin wo sirf isliye thi ki aapke chehre pe smile aa jaye.  
+Aaj ye letter bhi isi umeed se likh raha hoon —  
+ki aap mere dil ki baat samajh pao.  
+
+Main bas ye chahta hoon ki misunderstandings khatam ho jayein  
+aur hum ek baar fir se normal tarike se baat kar sakein.`;
+
+    let typed=false,i=0;
+    function typeWriter(){
+      if(i<letterText.length){
+        document.getElementById("letter").textContent+=letterText.charAt(i);
+        i++;setTimeout(typeWriter,40);
+      }
+      typed=true;
+    }
+
+    // Smile animation
+    function makeSmile(){
+      const sad = document.getElementById("mouth-sad");
+      const smile = document.getElementById("mouth-smile");
+
+      sad.style.opacity = "0";
+      smile.style.opacity = "1";
+
+      // reflow for transition
+      smile.getBoundingClientRect();  
+      spawnHearts(8);
+    }
+
+    // Floating hearts
+    function spawnHearts(n){
+      for(let j=0;j<n;j++){
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(15+Math.random()*25)+"px";
+        h.style.animationDuration=(3+Math.random()*3)+"s";
+        document.getElementById("hearts").appendChild(h);
+        setTimeout(()=>h.remove(),6000);
+      }
+    }
+    setInterval(()=>spawnHearts(1),2000);
+  </script>
+</body>
+</html>
